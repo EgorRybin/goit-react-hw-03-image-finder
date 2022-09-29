@@ -3,7 +3,7 @@ import { Audio } from 'react-loader-spinner';
 
 import ErrorBoundary from './ErrorBoundary/ErrorBoundary';
 import Searchbar from './Searchbar/Searchbar';
-import getItems from './Api/Api';
+import getItems from '../Api/Api';
 import ImageGallery from './ImageGallery/ImageGallery';
 import Button from './Button/Button';
 import Modal from './Modal/Modal';
@@ -14,9 +14,8 @@ class App extends Component {
     inputValue: '',
     count: 1,
     images: [],
-    imgId: '',
     isLoading: false,
-    showModal: false,
+    showModal: '',
   };
 
   async componentDidUpdate(_, prevState) {
@@ -32,16 +31,20 @@ class App extends Component {
     }
   }
 
-  findeId = e => {
-    this.setState({ imgId: e.target.alt });
-  };
-  toogleModal = () => {
-    this.setState(state => ({ showModal: !state.showModal }));
+  toogleModal = img => {
+    this.setState(state => ({ showModal: img }));
   };
 
   handleSubmitValue = data => {
-    this.setState({ isLoading: true });
-    this.setState({ inputValue: data, images: [], count: 1, isLoading: false });
+    if (data !== this.state.inputValue) {
+      this.setState({ isLoading: true });
+      this.setState({
+        inputValue: data,
+        images: [],
+        count: 1,
+        isLoading: false,
+      });
+    }
   };
 
   loadMore = () => {
@@ -49,18 +52,14 @@ class App extends Component {
   };
 
   render() {
-    const { images, isLoading, showModal, imgId } = this.state;
+    const { images, isLoading, showModal } = this.state;
     const { toogleModal, handleSubmitValue, loadMore } = this;
     return (
       <div className={s.App}>
         <ErrorBoundary>
-          {showModal && <Modal toogleModal={toogleModal} imgId={imgId} />}
+          {showModal && <Modal toogleModal={toogleModal} imgId={showModal} />}
           <Searchbar handleSubmitValue={handleSubmitValue} />
-          <ImageGallery
-            array={images}
-            toogleModal={toogleModal}
-            findeId={this.findeId}
-          />
+          <ImageGallery array={images} toogleModal={toogleModal} />
           {isLoading && (
             <Audio
               height="80"

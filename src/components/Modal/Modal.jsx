@@ -17,13 +17,13 @@ class Modal extends Component {
 
   onKeyDown = e => {
     if (e.code === 'Escape') {
-      this.props.toogleModal();
+      this.props.toogleModal('');
     }
   };
 
   onOverlayClick = e => {
     if (e.target === e.currentTarget) {
-      this.props.toogleModal();
+      this.props.toogleModal('');
     }
   };
   render() {
@@ -31,10 +31,7 @@ class Modal extends Component {
     return createPortal(
       <div className={s.Overlay} onClick={this.onOverlayClick}>
         <div className={s.Modal}>
-          <img
-            src={imgId}
-            alt=""
-          />
+          <img src={imgId} alt="" />
         </div>
       </div>,
       modalRoot
@@ -44,8 +41,6 @@ class Modal extends Component {
 
 export default Modal;
 
-
 Modal.propTypes = {
   toogleModal: PropTypes.func.isRequired,
-  imgId: PropTypes.string.isRequired,
-}
+};

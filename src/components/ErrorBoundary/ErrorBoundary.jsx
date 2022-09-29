@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import { Component } from 'react';
 
 class ErrorBoundary extends Component {
@@ -17,3 +18,6 @@ class ErrorBoundary extends Component {
 
 export default ErrorBoundary;
 
+ErrorBoundary.propTypes = {
+  children: PropTypes.node.isRequired
+};
